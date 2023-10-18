@@ -1,4 +1,4 @@
-package ru.otus.spring.domain;
+package ru.otus.spring.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -7,8 +7,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.otus.spring.dao.QuizDaoImpl;
-import ru.otus.spring.service.IOServiceStreams;
-import ru.otus.spring.service.QuizServiceImpl;
+import ru.otus.spring.domain.CorrectAnswer;
+import ru.otus.spring.domain.Quiz;
+import ru.otus.spring.domain.Student;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -20,16 +21,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doNothing;
 
 @DisplayName("Класс QuizTest")
 @ExtendWith(MockitoExtension.class)
-public class QuizTest {
+public class QuizServiceTest {
 
     @Mock
     private QuizDaoImpl quizDao;
 
     @Mock
     private IOServiceStreams ioService;
+
+    @Mock
+    private StudentService studentService;
+
+    @Mock
+    private QuizResult quizResult;
 
     @InjectMocks
     private QuizServiceImpl service;
@@ -39,14 +47,15 @@ public class QuizTest {
     void shouldWellFormatQuestion() throws IOException {
         final String EOL = System.lineSeparator();
         //логика сервиса заключена в форматировании согласно требованиям бизнеса вопросов квиза
-        StringBuilder formatedQuiz = new StringBuilder();
-        formatedQuiz.append("Russian Literature Quiz").append(EOL);
-        formatedQuiz.append("1.Test question?").append(EOL);
-        formatedQuiz.append("Choose the correct:").append(EOL);
-        formatedQuiz.append("\tA.Choice A").append(EOL);
-        formatedQuiz.append("\tB.Choice B").append(EOL);
-        formatedQuiz.append("Tip: Choice A is correct.").append(EOL);
-        formatedQuiz.append("Correct choice is: A.Choice A");
+        String formattedQuizTextBlock = """
+                Russian Literature Quiz
+                1.Test question?
+                Choose the correct:
+                \tA.Choice A
+                \tB.Choice B
+                
+                Tip: Choice A is correct.
+                Correct choice is: A.Choice A""";
 
         //исходный mock-объект с вопросом квиза
         Quiz quiz = new Quiz();
@@ -68,11 +77,15 @@ public class QuizTest {
             return null;
         }).when(ioService).outputString(anyString());
 
+        doAnswer(invocationOnMock -> null).when(quizResult).applyAnswer(quiz);
+        doAnswer(invocationOnMock -> null).when(quizResult).printResult(null);
+        doAnswer(invocationOnMock -> null).when(studentService).greatStudent();
+
         service.runQuiz();
 
         bo.flush();
         String allWrittenLines = new String(bo.toByteArray());
 
-        assertThat(allWrittenLines.stripTrailing()).isEqualTo(formatedQuiz.toString());
+        assertThat(allWrittenLines.stripTrailing()).isEqualTo(formattedQuizTextBlock.replace("\n",EOL));
     }
 }
