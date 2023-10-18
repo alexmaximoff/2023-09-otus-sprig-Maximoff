@@ -9,7 +9,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.otus.spring.dao.QuizDaoImpl;
 import ru.otus.spring.domain.CorrectAnswer;
 import ru.otus.spring.domain.Quiz;
-import ru.otus.spring.domain.Student;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -21,7 +20,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doNothing;
 
 @DisplayName("Класс QuizTest")
 @ExtendWith(MockitoExtension.class)
