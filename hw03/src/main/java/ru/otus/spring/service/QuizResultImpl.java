@@ -1,19 +1,20 @@
 package ru.otus.spring.service;
 
+import ru.otus.spring.config.AppConfig;
 import ru.otus.spring.domain.Quiz;
 import ru.otus.spring.domain.Student;
 
 public class QuizResultImpl implements QuizResult {
 
-    private final IOService ioService;
+    private final AppConfig appConfig;
 
-    private final Integer quizPassThreshold;
+    private final IOService ioService;
 
     private Integer correctAnswerCount = 0;
 
-    public QuizResultImpl(IOService ioService, Integer quizPassThreshold) {
+    public QuizResultImpl(AppConfig appConfig, IOService ioService) {
+        this.appConfig = appConfig;
         this.ioService = ioService;
-        this.quizPassThreshold = quizPassThreshold;
     }
 
     @Override
@@ -30,7 +31,7 @@ public class QuizResultImpl implements QuizResult {
     }
 
     public void printResult(Student student) {
-        if (correctAnswerCount >= quizPassThreshold) {
+        if (correctAnswerCount >= appConfig.getRightAnswersCountToPass()) {
             ioService.outputString(
                     String.format("Congratulations, %s! You have passed, your score is %s",
                             student.getFullName(), correctAnswerCount));

@@ -7,10 +7,12 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
+import ru.otus.spring.config.AppConfig;
 import ru.otus.spring.domain.CorrectAnswer;
 import ru.otus.spring.domain.Quiz;
 import ru.otus.spring.exceptions.QuizFileException;
 import ru.otus.spring.util.FileResourcesUtil;
+import ru.otus.spring.util.JsonFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,26 +26,29 @@ public class QuizDaoImpl implements QuizDao {
 
     private final String quizDataFile;
 
+    private final AppConfig appConfig;
+
     private final FileResourcesUtil fileResourcesUtil;
 
     private final ObjectMapper objectMapper;
 
-    public QuizDaoImpl(String quizDataFile, FileResourcesUtil fileResourcesUtil, ObjectMapper objectMapper) {
-        this.quizDataFile = quizDataFile;
+    public QuizDaoImpl(AppConfig appConfig, FileResourcesUtil fileResourcesUtil, JsonFactory jsonFactory) {
+        this.appConfig = appConfig;
         this.fileResourcesUtil = fileResourcesUtil;
-        this.objectMapper = objectMapper;
+        this.objectMapper = jsonFactory.getObjectMapper();
+        this.quizDataFile = this.appConfig.getQuizFileName();
     }
 
     @Override
     public List<Quiz> getQuizData() {
-        InputStream inputStream = fileResourcesUtil.getFileFromResourceAsStream(quizDataFile);
+        InputStream inputStream = fileResourcesUtil.getFileFromResourceAsStream(appConfig.getQuizFileName());
         List<Quiz> quiz = new ArrayList<>();
 
         try (InputStreamReader streamReader =
                      new InputStreamReader(inputStream, StandardCharsets.UTF_8);
              BufferedReader reader = new BufferedReader(streamReader);
              CSVReader csvReader = new CSVReaderBuilder(reader).withCSVParser(
-                     new CSVParserBuilder().withEscapeChar('\\').withQuoteChar('\"').build()).build()
+                     new CSVParserBuilder().withEscapeChar('\\').withQuoteChar('\'').build()).build()
         ) {
             //Строки и столбцы csv-таблицы
             List<String[]> r = csvReader.readAll();
@@ -52,11 +57,11 @@ public class QuizDaoImpl implements QuizDao {
                 try {
                     quiz.add(parseQuizJson(x[0]));
                 } catch (JsonProcessingException e) {
-                    throw (new QuizFileException("Error occurred while parsing JSON from file" + quizDataFile));
+                    throw(new QuizFileException("Error occurred while parsing json " + quizDataFile, e));
                 }
             });
         } catch (IOException | CsvException e) {
-            throw(new QuizFileException("Error occurred while reading file " + quizDataFile));
+            throw(new QuizFileException("Error occurred while reading file " + quizDataFile, e));
         }
         return quiz;
     }

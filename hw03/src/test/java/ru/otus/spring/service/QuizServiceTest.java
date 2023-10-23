@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doAnswer;
 
-@DisplayName("Класс QuizTest")
+@DisplayName("Класс QuizService")
 @ExtendWith(MockitoExtension.class)
 public class QuizServiceTest {
 

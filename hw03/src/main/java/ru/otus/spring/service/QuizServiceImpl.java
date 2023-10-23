@@ -3,7 +3,7 @@ package ru.otus.spring.service;
 import ru.otus.spring.dao.QuizDao;
 import ru.otus.spring.domain.Quiz;
 import ru.otus.spring.domain.Student;
-import ru.otus.spring.exceptions.QuizFileException;
+import ru.otus.spring.message.LocalMsgService;
 
 import java.util.List;
 
@@ -15,22 +15,32 @@ public class QuizServiceImpl implements QuizService {
 
     private final StudentService studentService;
 
+    private final LocalMsgService localMsgService;
+
     private final QuizResult quizResult;
 
     private List<Quiz>quizList;
 
-    public QuizServiceImpl(QuizDao quizDao, IOService ioService, StudentService studentService, QuizResult quizResult) {
+    public QuizServiceImpl(QuizDao quizDao, IOService ioService, StudentService studentService,
+                           LocalMsgService localMsgService, QuizResult quizResult) {
         this.quizDao = quizDao;
         this.ioService = ioService;
         this.studentService = studentService;
+        this.localMsgService = localMsgService;
         this.quizResult = quizResult;
     }
 
     @Override
     public void runQuiz() {
-        loadQuizData();
+        try {
+            loadQuizData();
+        } catch (Throwable e) {
+            ioService.outputString("Caught : " + e);
+            ioService.outputString("Actual cause: " + e.getCause());
+            return;
+        }
 
-        ioService.outputString("Russian Literature Quiz");
+        ioService.outputString(localMsgService.getMsgByCode("QuizName"));
         Student student = studentService.greatStudent();
 
         int i = 1;
@@ -47,12 +57,8 @@ public class QuizServiceImpl implements QuizService {
         quizResult.printResult(student);
     }
 
-    private void loadQuizData() {
-        try {
+    private void loadQuizData() throws Throwable {
             this.quizList = quizDao.getQuizData();
-        } catch (QuizFileException e) {
-            ioService.outputString(e.getMessage());
-        }
     }
 
     private String formatChoice(String choice, int idx) {

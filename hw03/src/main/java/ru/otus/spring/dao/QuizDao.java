@@ -5,5 +5,5 @@ import ru.otus.spring.domain.Quiz;
 import java.util.List;
 
 public interface QuizDao {
-    List<Quiz> getQuizData();
+    List<Quiz> getQuizData() throws Throwable;
 }

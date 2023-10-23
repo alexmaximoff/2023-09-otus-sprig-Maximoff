@@ -1,65 +1,65 @@
-"{
-  \"question\":\"What novel written by Nikolai Gogol traces the adventures of the landless social-climbing Pavel Ivanovich Chichikov, a dismissed civil servant out to seek his fortune?\",
-  \"answerlist\": [
-    \"The Government Inspector\",
-    \"The Overcoat\",
-    \"Dead Souls\",
-    \"Nevsky Prospect\"
+'{
+  "question":"What novel written by Nikolai Gogol traces the adventures of the landless social-climbing Pavel Ivanovich Chichikov, a dismissed civil servant out to seek his fortune?",
+  "answerlist": [
+    "The Government Inspector",
+    "The Overcoat",
+    "Dead Souls",
+    "Nevsky Prospect"
   ],
-  \"correct\": {
-    \"answer\": \"3\",
-    \"comment\": \"One of the most significant works in the history of Russian literature, Dead Souls was one of the foundational texts of 19th-century Russian realism.\"
+  "correct": {
+    "answer": "3",
+    "comment": "One of the most significant works in the history of Russian literature, Dead Souls was one of the foundational texts of 19th-century Russian realism."
   }
-}"
-"{
-  \"question\":\"Which 19th-century poet, novelist, and playwright is widely considered the father of modern Russian literature?\",
-  \"answerlist\": [
-    \"Alexandr Ostrovksy\",
-    \"Alexandr Pushkin\",
-    \"Mikhail Lermontov\",
-    \"Ivan Goncharov\"
+}'
+'{
+  "question":"Which 19th-century poet, novelist, and playwright is widely considered the father of modern Russian literature?",
+  "answerlist": [
+    "Alexandr Ostrovksy",
+    "Alexandr Pushkin",
+    "Mikhail Lermontov",
+    "Ivan Goncharov"
   ],
-  \"correct\": {
-    \"answer\": \"2\",
-    \"comment\": \"Behind the diverse landmark works such as the poem Ruslan and Ludmila, the play Boris Godunov, and the novel in verse Yevgeny Onegin, Pushkin launched Russian literature into its golden era during the 1800s.\"
+  "correct": {
+    "answer": "2",
+    "comment": "Behind the diverse landmark works such as the poem Ruslan and Ludmila, the play Boris Godunov, and the novel in verse Yevgeny Onegin, Pushkin launched Russian literature into its golden era during the 1800s."
   }
-}"
-"{
-  \"question\":\"Which philosophy does Bazarov, the central character of Ivan Turgenev’s Fathers and Sons, subscribe to?\",
-  \"answerlist\": [
-    \"Existentialism\",
-    \"Nihilism\",
-    \"Pragmatism\",
-    \"Transcendentalism\"
+}'
+'{
+  "question":"Which philosophy does Bazarov, the central character of Ivan Turgenev’s Fathers and Sons, subscribe to?",
+  "answerlist": [
+    "Existentialism",
+    "Nihilism",
+    "Pragmatism",
+    "Transcendentalism"
   ],
-  \"correct\": {
-    \"answer\": \"2\",
-    \"comment\": \"Bazarov is one of the first and best-known literary characters who is a nihilist, denying the validity of all laws save those of the natural sciences.\"
+  "correct": {
+    "answer": "2",
+    "comment": "Bazarov is one of the first and best-known literary characters who is a nihilist, denying the validity of all laws save those of the natural sciences."
   }
-}"
-"{
-  \"question\":\"Who wrote the 1859 novel Oblomov, whose lazy, daydreaming titular character satirizes the contemporary Russian nobility?\",
-  \"answerlist\": [
-    \"Vladimir Mayakovsky\",
-    \"Andrey Bely\",
-    \"Ivan Goncharov\",
-    \"Ivan Bunin\"
+}'
+'{
+  "question":"Who wrote the 1859 novel Oblomov, whose lazy, daydreaming titular character satirizes the contemporary Russian nobility?",
+  "answerlist": [
+    "Vladimir Mayakovsky",
+    "Andrey Bely",
+    "Ivan Goncharov",
+    "Ivan Bunin"
   ],
-  \"correct\": {
-    \"answer\": \"3\",
-    \"comment\": \"Ivan Goncharov is best known for Oblomov, a novel that was so influential it spawned the term oblomovshchina, which epitomizes the backwardness and futility of 19th-century Russian society.\"
+  "correct": {
+    "answer": "3",
+    "comment": "Ivan Goncharov is best known for Oblomov, a novel that was so influential it spawned the term oblomovshchina, which epitomizes the backwardness and futility of 19th-century Russian society."
   }
-}"
-"{
-  \"question\":\"Which of the following is not a play written by famed Russian dramatist Anton Chekhov?\",
-  \"answerlist\": [
-    \"The Lower Depths\",
-    \"Uncle Vanya\",
-    \"Three Sisters\",
-    \"The Cherry Orchard\"
+}'
+'{
+  "question":"Which of the following is not a play written by famed Russian dramatist Anton Chekhov?",
+  "answerlist": [
+    "The Lower Depths",
+    "Uncle Vanya",
+    "Three Sisters",
+    "The Cherry Orchard"
   ],
-  \"correct\": {
-    \"answer\": \"1\",
-    \"comment\": \"Chekhov wrote a number of classic plays but not The Lower Depths, which was written by Maxim Gorky.\"
+  "correct": {
+    "answer": "1",
+    "comment": "Chekhov wrote a number of classic plays but not The Lower Depths, which was written by Maxim Gorky."
   }
-}"
+}'
