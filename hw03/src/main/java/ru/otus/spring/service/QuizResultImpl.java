@@ -1,36 +1,41 @@
 package ru.otus.spring.service;
 
-import ru.otus.spring.config.AppConfig;
-import ru.otus.spring.domain.Quiz;
+import org.springframework.stereotype.Service;
+import ru.otus.spring.config.ResultConfig;
+import ru.otus.spring.domain.quiz.QuizQestion;
 import ru.otus.spring.domain.Student;
 
+@Service
 public class QuizResultImpl implements QuizResult {
 
-    private final AppConfig appConfig;
+    private final ResultConfig appConfig;
 
     private final IOService ioService;
 
-    private Integer correctAnswerCount = 0;
-
-    public QuizResultImpl(AppConfig appConfig, IOService ioService) {
+    public QuizResultImpl(ResultConfig appConfig, IOService ioService) {
         this.appConfig = appConfig;
         this.ioService = ioService;
     }
 
     @Override
-    public void applyAnswer(Quiz quiz) {
-        String res;
-        res = ioService.readStringWithPrompt("Enter your choice:");
-        int choice = (res.charAt(0) - 'A') + 1;
-        if (choice == quiz.getCorrect().getAnswer()) {
-            correctAnswerCount++;
+    public int applyAnswer(QuizQestion quizQestion) {
+        //прочитать ответ как латинскую букву
+        char choice = ioService.readStringWithPrompt("Enter your choice:").toUpperCase().charAt(0);
+        //получим из латинской буквы номер ответа
+        int choiceIndex = (choice - 'A') + 1;
+        //Напечатать ответ и комментарй
+        //если номер ответа совпал с номером верного ответа вернуть 1 иначе 0
+        if (choiceIndex == quizQestion.getCorrect().getAnswer()) {
             ioService.outputString("You are right.");
+            return 1;
         } else {
             ioService.outputString("You are missed.");
+            return 0;
         }
     }
 
-    public void printResult(Student student) {
+    @Override
+    public void printResult(Student student, int correctAnswerCount) {
         if (correctAnswerCount >= appConfig.getRightAnswersCountToPass()) {
             ioService.outputString(
                     String.format("Congratulations, %s! You have passed, your score is %s",

@@ -1,4 +1,4 @@
-package ru.otus.spring.domain;
+package ru.otus.spring.domain.quiz;
 
 public class CorrectAnswer {
     private final int answer;

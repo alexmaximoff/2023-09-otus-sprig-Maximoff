@@ -7,8 +7,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.otus.spring.dao.QuizDaoImpl;
-import ru.otus.spring.domain.CorrectAnswer;
-import ru.otus.spring.domain.Quiz;
+import ru.otus.spring.domain.quiz.CorrectAnswer;
+import ru.otus.spring.domain.quiz.QuizQestion;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doAnswer;
@@ -56,27 +57,27 @@ public class QuizServiceTest {
                 Correct choice is: A.Choice A""";
 
         //исходный mock-объект с вопросом квиза
-        Quiz quiz = new Quiz();
-        quiz.setQuestion("Test question?");
-        quiz.setAnswerList(new String[]{"Choice A", "Choice B"});
-        quiz.setCorrect(new CorrectAnswer(1,"Choice A is correct."));
-        List<Quiz> quizList = new ArrayList<>();
-        quizList.add(quiz);
+        QuizQestion quizQestions = new QuizQestion();
+        quizQestions.setQuestion("Test question?");
+        quizQestions.setAnswerList(new String[]{"Choice A", "Choice B"});
+        quizQestions.setCorrect(new CorrectAnswer(1,"Choice A is correct."));
+        List<QuizQestion> quizQestionList = new ArrayList<>();
+        quizQestionList.add(quizQestions);
 
         //Redirect System.out to buffer
         ByteArrayOutputStream bo = new ByteArrayOutputStream();
         System.setOut(new PrintStream(bo));
 
         given(quizDao.getQuizData())
-                .willReturn(quizList);
+                .willReturn(quizQestionList);
 
         doAnswer(invocation -> {
             System.out.println((String)invocation.getArgument(0));
             return null;
         }).when(ioService).outputString(anyString());
 
-        doAnswer(invocationOnMock -> null).when(quizResult).applyAnswer(quiz);
-        doAnswer(invocationOnMock -> null).when(quizResult).printResult(null);
+        doAnswer(invocationOnMock -> null).when(quizResult).applyAnswer(any(QuizQestion.class));
+        doAnswer(invocationOnMock -> null).when(quizResult).printResult(null, any());
         doAnswer(invocationOnMock -> null).when(studentService).greatStudent();
 
         service.runQuiz();

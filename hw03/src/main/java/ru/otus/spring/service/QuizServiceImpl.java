@@ -1,12 +1,15 @@
 package ru.otus.spring.service;
 
+import org.springframework.stereotype.Service;
 import ru.otus.spring.dao.QuizDao;
-import ru.otus.spring.domain.Quiz;
+import ru.otus.spring.domain.quiz.QuizQestion;
 import ru.otus.spring.domain.Student;
+import ru.otus.spring.exceptions.QuizReadException;
 import ru.otus.spring.message.LocalMsgService;
 
 import java.util.List;
 
+@Service
 public class QuizServiceImpl implements QuizService {
 
     private final QuizDao quizDao;
@@ -19,8 +22,6 @@ public class QuizServiceImpl implements QuizService {
 
     private final QuizResult quizResult;
 
-    private List<Quiz>quizList;
-
     public QuizServiceImpl(QuizDao quizDao, IOService ioService, StudentService studentService,
                            LocalMsgService localMsgService, QuizResult quizResult) {
         this.quizDao = quizDao;
@@ -32,58 +33,52 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public void runQuiz() {
+        List<QuizQestion> quizQestionList;
         try {
-            loadQuizData();
-        } catch (Throwable e) {
+            quizQestionList = quizDao.getQuizData();
+        } catch (QuizReadException e) {
             ioService.outputString("Caught : " + e);
             ioService.outputString("Actual cause: " + e.getCause());
             return;
         }
-
         ioService.outputString(localMsgService.getMsgByCode("QuizName"));
+        //состояние квиза хранится только на время прохождения
         Student student = studentService.greatStudent();
-
+        int correctAnswerCount = 0;
         int i = 1;
-        for (Quiz quiz : quizList) {
+        for (QuizQestion quizQestion : quizQestionList) {
             //напечатать вопрос
-            ioService.outputString(formatQuestion(quiz, i++));
-            //прочитать ответ
-            quizResult.applyAnswer(quiz);
-            //Напечатать ответ и комментарй
-            ioService.outputString(formatQuestionTip(quiz));
+            ioService.outputString(formatQuestion(quizQestion, i++));
+            correctAnswerCount += quizResult.applyAnswer(quizQestion);
+            ioService.outputString(formatQuestionTip(quizQestion));
         }
-
         //вывести результат для студента
-        quizResult.printResult(student);
-    }
-
-    private void loadQuizData() throws Throwable {
-            this.quizList = quizDao.getQuizData();
+        quizResult.printResult(student, correctAnswerCount);
     }
 
     private String formatChoice(String choice, int idx) {
         return Character.toString('A' + idx) + "." + choice;
     }
 
-    private String formatQuestion(Quiz quiz, int idx) {
+    private String formatQuestion(QuizQestion quizQestion, int idx) {
         final String eol = System.lineSeparator();
         StringBuilder questionSB = new StringBuilder();
-        questionSB.append(idx).append(".").append(quiz.getQuestion()).append(eol);
+        questionSB.append(idx).append(".").append(quizQestion.getQuestion()).append(eol);
         questionSB.append("Choose the correct:").append(eol);
-        for (int i = 0; i < quiz.getAnswerList().length; i++) {
-            questionSB.append("\t").append(formatChoice(quiz.getAnswerList()[i], i)).append(eol);
+        for (int i = 0; i < quizQestion.getAnswerList().length; i++) {
+            questionSB.append("\t").append(formatChoice(quizQestion.getAnswerList()[i], i)).append(eol);
         }
 
         return questionSB.toString();
     }
 
-    private String formatQuestionTip(Quiz quiz) {
+    private String formatQuestionTip(QuizQestion quizQestion) {
         final String eol = System.lineSeparator();
         StringBuilder questionSB = new StringBuilder();
-        questionSB.append("Tip: ").append(quiz.getCorrect().getComment()).append(eol);
-        int correctIdx = quiz.getCorrect().getAnswer() - 1;
+        questionSB.append("Tip: ").append(quizQestion.getCorrect().getComment()).append(eol);
+        int correctIdx = quizQestion.getCorrect().getAnswer() - 1;
         questionSB.append("Correct choice is: ").
-                append(formatChoice(quiz.getAnswerList()[correctIdx], correctIdx)).
+                append(formatChoice(quizQestion.getAnswerList()[correctIdx], correctIdx)).
                 append(eol);
         return questionSB.toString();
     }

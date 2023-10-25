@@ -1,7 +1,9 @@
 package ru.otus.spring.service;
 
+import org.springframework.stereotype.Service;
 import ru.otus.spring.domain.Student;
 
+@Service
 public class StudentServiceImpl implements StudentService {
     private final IOService ioService;
 
@@ -11,10 +13,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student greatStudent() {
-        String firstName;
-        String lastName;
-        firstName = ioService.readStringWithPrompt("Enter first name:");
-        lastName = ioService.readStringWithPrompt("Enter last name:");
+        String firstName = ioService.readStringWithPrompt("Enter first name:");
+        String lastName = ioService.readStringWithPrompt("Enter last name:");
         return new Student(firstName, lastName);
     }
 }

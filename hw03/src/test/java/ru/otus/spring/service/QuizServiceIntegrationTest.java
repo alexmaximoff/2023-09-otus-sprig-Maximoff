@@ -1,6 +1,5 @@
 package ru.otus.spring.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -10,7 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import ru.otus.spring.Main;
 import ru.otus.spring.dao.QuizDao;
-import ru.otus.spring.domain.Quiz;
+import ru.otus.spring.domain.quiz.QuizQestion;
 
 import java.util.List;
 
@@ -31,8 +30,8 @@ public class QuizServiceIntegrationTest {
     public void getQuizData() throws Throwable {
         Mockito.doNothing().when(quizService).runQuiz();
 
-        List<Quiz> quizList = quizDao.getQuizData();
-        assertThat(quizList).isNotNull();
-        assertThat(quizList.size()).isEqualTo(5);
+        List<QuizQestion> quizQestionList = quizDao.getQuizData();
+        assertThat(quizQestionList).isNotNull();
+        assertThat(quizQestionList.size()).isEqualTo(5);
     }
 }

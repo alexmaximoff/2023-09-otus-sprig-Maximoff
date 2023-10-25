@@ -1,8 +1,8 @@
-package ru.otus.spring.domain;
+package ru.otus.spring.domain.quiz;
 
 import java.util.Arrays;
 
-public class Quiz {
+public class QuizQestion {
 
     private String question;
 

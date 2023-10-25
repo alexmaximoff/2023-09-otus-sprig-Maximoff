@@ -7,10 +7,11 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
-import ru.otus.spring.config.AppConfig;
-import ru.otus.spring.domain.CorrectAnswer;
-import ru.otus.spring.domain.Quiz;
-import ru.otus.spring.exceptions.QuizFileException;
+import org.springframework.stereotype.Service;
+import ru.otus.spring.config.FileServiceConfig;
+import ru.otus.spring.domain.quiz.CorrectAnswer;
+import ru.otus.spring.domain.quiz.QuizQestion;
+import ru.otus.spring.exceptions.QuizReadException;
 import ru.otus.spring.util.FileResourcesUtil;
 import ru.otus.spring.util.JsonFactory;
 
@@ -22,17 +23,18 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class QuizDaoImpl implements QuizDao {
 
     private final String quizDataFile;
 
-    private final AppConfig appConfig;
+    private final FileServiceConfig appConfig;
 
     private final FileResourcesUtil fileResourcesUtil;
 
     private final ObjectMapper objectMapper;
 
-    public QuizDaoImpl(AppConfig appConfig, FileResourcesUtil fileResourcesUtil, JsonFactory jsonFactory) {
+    public QuizDaoImpl(FileServiceConfig appConfig, FileResourcesUtil fileResourcesUtil, JsonFactory jsonFactory) {
         this.appConfig = appConfig;
         this.fileResourcesUtil = fileResourcesUtil;
         this.objectMapper = jsonFactory.getObjectMapper();
@@ -40,9 +42,9 @@ public class QuizDaoImpl implements QuizDao {
     }
 
     @Override
-    public List<Quiz> getQuizData() {
+    public List<QuizQestion> getQuizData() throws QuizReadException {
         InputStream inputStream = fileResourcesUtil.getFileFromResourceAsStream(appConfig.getQuizFileName());
-        List<Quiz> quiz = new ArrayList<>();
+        List<QuizQestion> quizQestions = new ArrayList<>();
 
         try (InputStreamReader streamReader =
                      new InputStreamReader(inputStream, StandardCharsets.UTF_8);
@@ -55,32 +57,32 @@ public class QuizDaoImpl implements QuizDao {
             //в каждой строке и первый столбец
             r.forEach(x -> {
                 try {
-                    quiz.add(parseQuizJson(x[0]));
+                    quizQestions.add(parseQuizJson(x[0]));
                 } catch (JsonProcessingException e) {
-                    throw(new QuizFileException("Error occurred while parsing json " + quizDataFile, e));
+                    throw(new QuizReadException("Error occurred while parsing json " + quizDataFile, e));
                 }
             });
         } catch (IOException | CsvException e) {
-            throw(new QuizFileException("Error occurred while reading file " + quizDataFile, e));
+            throw(new QuizReadException("Error occurred while reading file " + quizDataFile, e));
         }
-        return quiz;
+        return quizQestions;
     }
 
-    private Quiz parseQuizJson(String jsonData) throws JsonProcessingException {
-        Quiz quiz;
+    private QuizQestion parseQuizJson(String jsonData) throws JsonProcessingException {
+        QuizQestion quizQestion;
         JsonNode jsonNode = objectMapper.readTree(jsonData);
-        quiz = new Quiz();
-        quiz.setQuestion(jsonNode.get("question").asText());
-        quiz.setAnswerList(objectMapper.readValue(
+        quizQestion = new QuizQestion();
+        quizQestion.setQuestion(jsonNode.get("question").asText());
+        quizQestion.setAnswerList(objectMapper.readValue(
                 jsonNode.get("answerlist").toString(), String[].class)
         );
-        quiz.setCorrect(
+        quizQestion.setCorrect(
                 new CorrectAnswer(
                         jsonNode.get("correct").get("answer").asInt(),
                         jsonNode.get("correct").get("comment").asText()
                 )
         );
 
-        return quiz;
+        return quizQestion;
     }
 }

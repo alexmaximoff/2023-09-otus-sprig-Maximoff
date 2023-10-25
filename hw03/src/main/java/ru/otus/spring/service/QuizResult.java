@@ -1,10 +1,10 @@
 package ru.otus.spring.service;
 
-import ru.otus.spring.domain.Quiz;
+import ru.otus.spring.domain.quiz.QuizQestion;
 import ru.otus.spring.domain.Student;
 
 public interface QuizResult {
-    void applyAnswer(Quiz quiz);
+    int applyAnswer(QuizQestion quizQestion);
 
-    void printResult(Student student);
+    void printResult(Student student, int correctAnswerCount);
 }
