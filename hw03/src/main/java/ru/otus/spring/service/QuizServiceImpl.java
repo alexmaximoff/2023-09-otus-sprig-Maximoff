@@ -2,6 +2,7 @@ package ru.otus.spring.service;
 
 import org.springframework.stereotype.Service;
 import ru.otus.spring.dao.QuizDao;
+import ru.otus.spring.domain.quiz.QuestionChoice;
 import ru.otus.spring.domain.quiz.QuizQestion;
 import ru.otus.spring.domain.Student;
 import ru.otus.spring.exceptions.QuizReadException;
@@ -65,8 +66,9 @@ public class QuizServiceImpl implements QuizService {
         StringBuilder questionSB = new StringBuilder();
         questionSB.append(idx).append(".").append(quizQestion.getQuestion()).append(eol);
         questionSB.append("Choose the correct:").append(eol);
-        for (int i = 0; i < quizQestion.getAnswerList().length; i++) {
-            questionSB.append("\t").append(formatChoice(quizQestion.getAnswerList()[i], i)).append(eol);
+        int choiceIdx = 0;
+        for (QuestionChoice choice : quizQestion.getChoiceList()) {
+            questionSB.append("\t").append(formatChoice(choice.getChoiceText(), choiceIdx++)).append(eol);
         }
 
         return questionSB.toString();
@@ -75,11 +77,20 @@ public class QuizServiceImpl implements QuizService {
     private String formatQuestionTip(QuizQestion quizQestion) {
         final String eol = System.lineSeparator();
         StringBuilder questionSB = new StringBuilder();
-        questionSB.append("Tip: ").append(quizQestion.getCorrect().getComment()).append(eol);
-        int correctIdx = quizQestion.getCorrect().getAnswer() - 1;
-        questionSB.append("Correct choice is: ").
-                append(formatChoice(quizQestion.getAnswerList()[correctIdx], correctIdx)).
-                append(eol);
-        return questionSB.toString();
+        questionSB.append("Tip: ");
+        for (QuestionChoice choice : quizQestion.getChoiceList()) {
+            if (choice.getCorrect()) {
+                questionSB.append(choice.getComment()).append(eol);
+            }
+        }
+        questionSB.append("Correct choice is: ");
+        int correctIdx = 0;
+        for (QuestionChoice choice : quizQestion.getChoiceList()) {
+            if (choice.getCorrect()) {
+                questionSB.append(formatChoice(choice.getChoiceText(), correctIdx)).append(" ");
+            }
+            correctIdx++;
+        }
+        return questionSB.toString().trim();
     }
 }

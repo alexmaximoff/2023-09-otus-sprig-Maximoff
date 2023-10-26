@@ -22,10 +22,10 @@ public class QuizResultImpl implements QuizResult {
         //прочитать ответ как латинскую букву
         char choice = ioService.readStringWithPrompt("Enter your choice:").toUpperCase().charAt(0);
         //получим из латинской буквы номер ответа
-        int choiceIndex = (choice - 'A') + 1;
+        int choiceIndex = (choice - 'A');
         //Напечатать ответ и комментарй
         //если номер ответа совпал с номером верного ответа вернуть 1 иначе 0
-        if (choiceIndex == quizQestion.getCorrect().getAnswer()) {
+        if (quizQestion.getChoiceList().get(choiceIndex).getCorrect()) {
             ioService.outputString("You are right.");
             return 1;
         } else {

@@ -27,7 +27,7 @@ public class QuizServiceIntegrationTest {
     private QuizService quizService;
 
     @Test
-    public void getQuizData() throws Throwable {
+    public void getQuizData() {
         Mockito.doNothing().when(quizService).runQuiz();
 
         List<QuizQestion> quizQestionList = quizDao.getQuizData();

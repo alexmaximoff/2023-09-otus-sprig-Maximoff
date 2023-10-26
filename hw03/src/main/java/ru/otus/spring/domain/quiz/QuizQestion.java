@@ -1,45 +1,25 @@
 package ru.otus.spring.domain.quiz;
 
-import java.util.Arrays;
+import java.util.List;
 
 public class QuizQestion {
 
-    private String question;
+    //текст вопроса
+    private final String question;
 
-    private String[] answerList;
+    //коллекция вариантов ответов с признаком правильный и комментарием
+    private final List<QuestionChoice> choiceList;
 
-    private CorrectAnswer correct;
-
-    public void setQuestion(String question) {
+    public QuizQestion(String question, List<QuestionChoice> choiceList) {
         this.question = question;
-    }
-
-    public void setAnswerList(String[] answerList) {
-        this.answerList = answerList;
-    }
-
-    public void setCorrect(CorrectAnswer correct) {
-        this.correct = correct;
+        this.choiceList = choiceList;
     }
 
     public String getQuestion() {
         return question;
     }
 
-    public String[] getAnswerList() {
-        return answerList;
-    }
-
-    public CorrectAnswer getCorrect() {
-        return correct;
-    }
-
-    @Override
-    public String toString() {
-        return "Quiz{" +
-                "question='" + question +
-                ", answerList=" + Arrays.toString(answerList) +
-                ", correct=" + correct +
-                '}';
+    public List<QuestionChoice> getChoiceList() {
+        return choiceList;
     }
 }

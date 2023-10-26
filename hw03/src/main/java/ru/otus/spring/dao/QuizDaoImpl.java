@@ -9,7 +9,7 @@ import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.config.FileServiceConfig;
-import ru.otus.spring.domain.quiz.CorrectAnswer;
+import ru.otus.spring.domain.quiz.QuestionChoice;
 import ru.otus.spring.domain.quiz.QuizQestion;
 import ru.otus.spring.exceptions.QuizReadException;
 import ru.otus.spring.util.FileResourcesUtil;
@@ -69,20 +69,20 @@ public class QuizDaoImpl implements QuizDao {
     }
 
     private QuizQestion parseQuizJson(String jsonData) throws JsonProcessingException {
-        QuizQestion quizQestion;
         JsonNode jsonNode = objectMapper.readTree(jsonData);
-        quizQestion = new QuizQestion();
-        quizQestion.setQuestion(jsonNode.get("question").asText());
-        quizQestion.setAnswerList(objectMapper.readValue(
-                jsonNode.get("answerlist").toString(), String[].class)
-        );
-        quizQestion.setCorrect(
-                new CorrectAnswer(
-                        jsonNode.get("correct").get("answer").asInt(),
-                        jsonNode.get("correct").get("comment").asText()
-                )
-        );
-
+        //получим коллекцию с вариантами ответов
+        String[] answerlist = objectMapper.readValue(
+                jsonNode.get("answerlist").toString(), String[].class);
+        //получим номер и комментарий правильного ответа
+        int correctChoice = jsonNode.get("correct").get("answer").asInt();
+        String comment = jsonNode.get("correct").get("comment").asText();
+        //сформируем варианты ответов с указанием корректного и комментрием
+        List<QuestionChoice> questionChoices = new ArrayList<>();
+        for (int i = 0; i < answerlist.length; i++) {
+            questionChoices.add(
+                    new QuestionChoice(answerlist[i], i == correctChoice - 1 ? comment : null, i == correctChoice - 1));
+        }
+        QuizQestion quizQestion = new QuizQestion(jsonNode.get("question").asText(), questionChoices);
         return quizQestion;
     }
 }
