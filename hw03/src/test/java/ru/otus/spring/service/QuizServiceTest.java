@@ -68,15 +68,14 @@ public class QuizServiceTest {
         List<QuizQestion> quizQuestionList = new ArrayList<>();
         quizQuestionList.add(quizQestion);
 
-        //Redirect System.out to buffer
         ByteArrayOutputStream bo = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(bo));
+        PrintStream printStream = new PrintStream(bo);
 
         given(quizDao.getQuizData())
                 .willReturn(quizQuestionList);
 
         doAnswer(invocation -> {
-            System.out.println((String)invocation.getArgument(0));
+            printStream.println((String)invocation.getArgument(0));
             return null;
         }).when(ioService).outputString(anyString());
 

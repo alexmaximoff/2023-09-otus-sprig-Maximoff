@@ -8,8 +8,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import ru.otus.spring.config.AppConfigImpl;
 import ru.otus.spring.service.QuizService;
 
-import java.io.IOException;
-
 @SpringBootApplication
 @EnableConfigurationProperties
 @AllArgsConstructor
@@ -24,7 +22,7 @@ public class Main implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws IOException {
+    public void run(String... args) {
         System.out.println(appConfigImpl.toString());
         quizService.runQuiz();
     }
