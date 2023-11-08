@@ -83,6 +83,12 @@ public class QuizServiceTest {
         doAnswer(invocationOnMock -> null).when(quizResultService).printResult(null, 0);
         given(localMsgService.getMsgByCode("QuizName"))
                 .willReturn("Russian Literature Quiz");
+        given(localMsgService.getMsgByCode("QuizSrvChoose"))
+                .willReturn("Choose the correct:");
+        given(localMsgService.getMsgByCode("QuizSrvTip"))
+                .willReturn("Tip: ");
+        given(localMsgService.getMsgByCode("QuizSrvCorrect"))
+                .willReturn("Correct choice is: ");
         doAnswer(invocationOnMock -> null).when(studentService).greatStudent();
 
         service.runQuiz();
