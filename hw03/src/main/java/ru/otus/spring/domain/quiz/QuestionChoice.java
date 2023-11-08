@@ -5,7 +5,7 @@ public class QuestionChoice {
 
     private final String comment;
 
-    private final Boolean isCorrect;
+    private final boolean isCorrect;
 
     public QuestionChoice(String choiceText, String comment, Boolean isCorrect) {
         this.choiceText = choiceText;
@@ -21,7 +21,7 @@ public class QuestionChoice {
         return comment;
     }
 
-    public Boolean getCorrect() {
+    public boolean getCorrect() {
         return isCorrect;
     }
 }

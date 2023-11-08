@@ -21,15 +21,15 @@ public class QuizServiceImpl implements QuizService {
 
     private final LocalMsgService localMsgService;
 
-    private final QuizResult quizResult;
+    private final QuizResultService quizResultService;
 
     public QuizServiceImpl(QuizDao quizDao, IOService ioService, StudentService studentService,
-                           LocalMsgService localMsgService, QuizResult quizResult) {
+                           LocalMsgService localMsgService, QuizResultService quizResultService) {
         this.quizDao = quizDao;
         this.ioService = ioService;
         this.studentService = studentService;
         this.localMsgService = localMsgService;
-        this.quizResult = quizResult;
+        this.quizResultService = quizResultService;
     }
 
     @Override
@@ -50,11 +50,11 @@ public class QuizServiceImpl implements QuizService {
         for (QuizQestion quizQestion : quizQestionList) {
             //напечатать вопрос
             ioService.outputString(formatQuestion(quizQestion, i++));
-            correctAnswerCount += quizResult.applyAnswer(quizQestion);
+            correctAnswerCount += quizResultService.applyAnswer(quizQestion);
             ioService.outputString(formatQuestionTip(quizQestion));
         }
         //вывести результат для студента
-        quizResult.printResult(student, correctAnswerCount);
+        quizResultService.printResult(student, correctAnswerCount);
     }
 
     private String formatChoice(String choice, int idx) {
@@ -65,7 +65,7 @@ public class QuizServiceImpl implements QuizService {
         final String eol = System.lineSeparator();
         StringBuilder questionSB = new StringBuilder();
         questionSB.append(idx).append(".").append(quizQestion.getQuestion()).append(eol);
-        questionSB.append("Choose the correct:").append(eol);
+        questionSB.append(localMsgService.getMsgByCode("QuizSrvChoose")).append(eol);
         int choiceIdx = 0;
         for (QuestionChoice choice : quizQestion.getChoiceList()) {
             questionSB.append("\t").append(formatChoice(choice.getChoiceText(), choiceIdx++)).append(eol);
@@ -77,13 +77,13 @@ public class QuizServiceImpl implements QuizService {
     private String formatQuestionTip(QuizQestion quizQestion) {
         final String eol = System.lineSeparator();
         StringBuilder questionSB = new StringBuilder();
-        questionSB.append("Tip: ");
+        questionSB.append(localMsgService.getMsgByCode("QuizSrvTip"));
         for (QuestionChoice choice : quizQestion.getChoiceList()) {
             if (choice.getCorrect()) {
                 questionSB.append(choice.getComment()).append(eol);
             }
         }
-        questionSB.append("Correct choice is: ");
+        questionSB.append(localMsgService.getMsgByCode("QuizSrvCorrect"));
         int correctIdx = 0;
         for (QuestionChoice choice : quizQestion.getChoiceList()) {
             if (choice.getCorrect()) {

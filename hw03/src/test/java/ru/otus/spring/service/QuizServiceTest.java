@@ -37,7 +37,7 @@ public class QuizServiceTest {
     private StudentService studentService;
 
     @Mock
-    private QuizResult quizResult;
+    private QuizResultService quizResultService;
 
     @Mock
     private LocalMsgService localMsgService;
@@ -79,8 +79,8 @@ public class QuizServiceTest {
             return null;
         }).when(ioService).outputString(anyString());
 
-        doAnswer(invocationOnMock -> null).when(quizResult).applyAnswer(any(QuizQestion.class));
-        doAnswer(invocationOnMock -> null).when(quizResult).printResult(null, 0);
+        doAnswer(invocationOnMock -> null).when(quizResultService).applyAnswer(any(QuizQestion.class));
+        doAnswer(invocationOnMock -> null).when(quizResultService).printResult(null, 0);
         given(localMsgService.getMsgByCode("QuizName"))
                 .willReturn("Russian Literature Quiz");
         doAnswer(invocationOnMock -> null).when(studentService).greatStudent();

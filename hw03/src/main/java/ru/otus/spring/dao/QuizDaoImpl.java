@@ -7,6 +7,7 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.config.FileServiceConfig;
 import ru.otus.spring.domain.quiz.QuestionChoice;
@@ -23,7 +24,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Repository
 public class QuizDaoImpl implements QuizDao {
 
     private final String quizDataFile;
