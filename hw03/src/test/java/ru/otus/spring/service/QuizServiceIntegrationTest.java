@@ -16,7 +16,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@ContextConfiguration(classes = Main.class)
+//@ContextConfiguration(classes = Main.class)
 @DisplayName("Интеграционный тест")
 public class QuizServiceIntegrationTest {
 
@@ -30,8 +30,8 @@ public class QuizServiceIntegrationTest {
     public void getQuizData() {
         Mockito.doNothing().when(quizService).runQuiz();
 
-        List<QuizQestion> quizQestionList = quizDao.getQuizData();
-        assertThat(quizQestionList).isNotNull();
-        assertThat(quizQestionList.size()).isEqualTo(5);
+        List<QuizQestion> quizQuestionList = quizDao.getQuizData();
+        assertThat(quizQuestionList).isNotNull();
+        assertThat(quizQuestionList.size()).isEqualTo(5);
     }
 }
