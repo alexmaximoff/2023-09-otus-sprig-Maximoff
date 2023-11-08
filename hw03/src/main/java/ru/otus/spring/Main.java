@@ -9,7 +9,7 @@ import ru.otus.spring.config.AppConfigImpl;
 import ru.otus.spring.service.QuizService;
 
 @SpringBootApplication
-@EnableConfigurationProperties
+@EnableConfigurationProperties(AppConfigImpl.class)
 @AllArgsConstructor
 public class Main implements CommandLineRunner {
 

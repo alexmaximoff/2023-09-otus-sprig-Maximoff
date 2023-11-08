@@ -1,12 +1,10 @@
 package ru.otus.spring.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 import java.util.Locale;
 import java.util.Map;
 
-@Component
 @ConfigurationProperties(prefix = "quiz")
 public class AppConfigImpl implements LocaleConfig, FileServiceConfig, ResultConfig {
     private int rightAnswersCountToPass;
