@@ -1,0 +1,65 @@
+'{
+  "question":"Какой роман Николая Гоголя повествует о событиях в деле Павла Иваноновича Чичикова, отставного служащего в поисках прибыли?",
+  "answerlist": [
+    "Ревизор",
+    "Шинель",
+    "Мертвые души",
+    "Nevsky Prospect"
+  ],
+  "correct": {
+    "answer": "3",
+    "comment": "One of the most significant works in the history of Russian literature, Dead Souls was one of the foundational texts of 19th-century Russian realism."
+  }
+}'
+'{
+  "question":"Какой поэт, писатель и драматург общепризнан как отцен современной Русской литературы?",
+  "answerlist": [
+    "Александр Островский",
+    "Александр Пушкин",
+    "Михаил Лермонтов",
+    "Иван Гончаров"
+  ],
+  "correct": {
+    "answer": "2",
+    "comment": "Behind the diverse landmark works such as the poem Ruslan and Ludmila, the play Boris Godunov, and the novel in verse Yevgeny Onegin, Pushkin launched Russian literature into its golden era during the 1800s."
+  }
+}'
+'{
+  "question":"Философские взгляды какого течения, разделял Базаров - центральный персонаж произведения Ивана Тургенева Отцы и Дети?",
+  "answerlist": [
+    "Экзиссстенциализм",
+    "Нигилизм",
+    "Прагматизм",
+    "Трансцендентализм"
+  ],
+  "correct": {
+    "answer": "2",
+    "comment": "Bazarov is one of the first and best-known literary characters who is a nihilist, denying the validity of all laws save those of the natural sciences."
+  }
+}'
+'{
+  "question":"Кто написал в 1859 году роман \\"Оболомов\\",  ленивый и бездеятельный главный персонаж которого является сатирой на современное Русское дворянство?",
+  "answerlist": [
+    "Владимир Маяковский",
+    "Андрей Белый",
+    "Иван Гончаров",
+    "Иван Бунин"
+  ],
+  "correct": {
+    "answer": "3",
+    "comment": "Ivan Goncharov is best known for Oblomov, a novel that was so influential it spawned the term oblomovshchina, which epitomizes the backwardness and futility of 19th-century Russian society."
+  }
+}'
+'{
+  "question":"Какая из следующих пьес не принадлежит перу знамениго русского драматурга Антона Чехова?",
+  "answerlist": [
+    "На Дне",
+    "Дяда Ваня",
+    "Три Сестры",
+    "Вишневый Сад"
+  ],
+  "correct": {
+    "answer": "1",
+    "comment": "Chekhov wrote a number of classic plays but not The Lower Depths, which was written by Maxim Gorky."
+  }
+}'
