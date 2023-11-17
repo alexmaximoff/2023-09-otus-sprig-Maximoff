@@ -1,5 +1,6 @@
 package ru.otus.hw.repositories;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -27,7 +28,11 @@ public class GenreRepositoryJdbc implements GenreRepository {
 
     @Override
     public Optional<Genre> findById(long id) {
-        return Optional.ofNullable(jdbc.queryForObject("select id, name from genres where id = :id", new MapSqlParameterSource("id", id), new GenreRowMapper()));
+        try {
+            return Optional.ofNullable(jdbc.queryForObject("select id, name from genres where id = :id", new MapSqlParameterSource("id", id), new GenreRowMapper()));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     private static class GenreRowMapper implements RowMapper<Genre> {
