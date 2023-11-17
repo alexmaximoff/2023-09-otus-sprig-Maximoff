@@ -3,11 +3,9 @@ package ru.otus.hw.repositories;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.otus.hw.models.Author;
 
-import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -18,8 +16,7 @@ public class AuthorRepositoryJdbc implements AuthorRepository {
 
     private final NamedParameterJdbcOperations jdbc;
 
-    public AuthorRepositoryJdbc(DataSource dataSource) {this.jdbc = new NamedParameterJdbcTemplate(dataSource);
-    }
+    public AuthorRepositoryJdbc(NamedParameterJdbcOperations jdbc) {this.jdbc = jdbc;}
 
     @Override
     public List<Author> findAll() {
@@ -28,7 +25,7 @@ public class AuthorRepositoryJdbc implements AuthorRepository {
 
     @Override
     public Optional<Author> findById(long id) {
-        return Optional.of(jdbc.queryForObject("select * from authors where id = :id", new MapSqlParameterSource("id", id), new AuthorRowMapper()));
+        return Optional.of(jdbc.queryForObject("select id, full_name from authors where id = :id", new MapSqlParameterSource("id", id), new AuthorRowMapper()));
     }
 
     private static class AuthorRowMapper implements RowMapper<Author> {
