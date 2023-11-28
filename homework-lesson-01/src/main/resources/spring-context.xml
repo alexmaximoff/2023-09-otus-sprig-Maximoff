@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="fileResUtil" class="ru.otus.spring.util.FileResourcesUtil"/>
+
+    <bean id="ioService" class="ru.otus.spring.service.IOServiceStreams">
+        <constructor-arg name="outputStream">
+            <util:constant static-field="java.lang.System.out"/>
+        </constructor-arg>
+    </bean>
+
+    <bean id="quizDao" class="ru.otus.spring.dao.QuizDaoImpl">
+        <constructor-arg name="quizDataFile" value="quiz.csv"/>
+        <constructor-arg name="fileResourcesUtil" ref="fileResUtil"/>
+        <constructor-arg name="objectMapper">
+            <util:constant static-field="ru.otus.spring.util.JsonFactory.OBJECT_MAPPER"/>
+        </constructor-arg>
+    </bean>
+
+    <bean id="quizService" class="ru.otus.spring.service.QuizServiceImpl">
+        <constructor-arg name="quizDao" ref="quizDao"/>
+        <constructor-arg name="ioService" ref="ioService"/>
+    </bean>
+</beans>
