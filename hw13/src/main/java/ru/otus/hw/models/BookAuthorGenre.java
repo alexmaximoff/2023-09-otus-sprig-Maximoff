@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity(name = "v_books")
 public class BookAuthorGenre {
+    @Id
     private Long id;
 
     @Column(name = "book_title")
@@ -22,9 +23,4 @@ public class BookAuthorGenre {
 
     @Column(name = "genre_name")
     private String genre;
-
-    @Id
-    public Long getId() {
-        return id;
-    }
 }
