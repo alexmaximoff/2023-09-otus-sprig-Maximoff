@@ -1,7 +1,9 @@
 package ru.otus.hw.repositories;
 
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,60 +47,60 @@ class BookRepositoryJdbcTest {
                 .isEqualTo(expectedBook);
     }
 
-//    @DisplayName("должен загружать список всех книг")
-//    @Test
-//    void shouldReturnCorrectBooksList() {
-//        var actualBooks = repositoryJdbc.findAll();
-//        var expectedBooks = dbBooks;
-//
-//        assertThat(actualBooks).containsExactlyElementsOf(expectedBooks);
-//        actualBooks.forEach(System.out::println);
-//    }
-//
-//    @DisplayName("должен сохранять новую книгу")
-//    @Test
-//    void shouldSaveNewBook() {
-//        var expectedBook = new Book(0, "BookTitle_10500", dbAuthors.get(0), dbGenres.get(0));
-//        var returnedBook = repositoryJdbc.save(expectedBook);
-//        assertThat(returnedBook).isNotNull()
-//                .matches(book -> book.getId() > 0)
-//                .usingRecursiveComparison().ignoringExpectedNullFields().isEqualTo(expectedBook);
-//
-//        assertThat(repositoryJdbc.findById(returnedBook.getId()))
-//                .isPresent()
-//                .get()
-//                .isEqualTo(returnedBook);
-//    }
-//
-//    @DisplayName("должен сохранять измененную книгу")
-//    @Test
-//    void shouldSaveUpdatedBook() {
-//        var expectedBook = new Book(1L, "BookTitle_10500", dbAuthors.get(2), dbGenres.get(2));
-//
-//        assertThat(repositoryJdbc.findById(expectedBook.getId()))
-//                .isPresent()
-//                .get()
-//                .isNotEqualTo(expectedBook);
-//
-//        var returnedBook = repositoryJdbc.save(expectedBook);
-//        assertThat(returnedBook).isNotNull()
-//                .matches(book -> book.getId() > 0)
-//                .usingRecursiveComparison().ignoringExpectedNullFields().isEqualTo(expectedBook);
-//
-//        assertThat(repositoryJdbc.findById(returnedBook.getId()))
-//                .isPresent()
-//                .get()
-//                .isEqualTo(returnedBook);
-//    }
-//
-//    @DisplayName("должен удалять книгу по id ")
-//    @Test
-//    void shouldDeleteBook() {
-//        assertThat(repositoryJdbc.findById(1L)).isPresent();
-//        repositoryJdbc.deleteById(1L);
-//        assertThat(repositoryJdbc.findById(1L)).isEmpty();
-//    }
-//
+    @DisplayName("должен загружать список всех книг")
+    @Test
+    void shouldReturnCorrectBooksList() {
+        var actualBooks = repositoryJdbc.findAll();
+        var expectedBooks = dbBooks;
+
+        assertThat(actualBooks).containsExactlyElementsOf(expectedBooks);
+        actualBooks.forEach(System.out::println);
+    }
+
+    @DisplayName("должен сохранять новую книгу")
+    @Test
+    void shouldSaveNewBook() {
+        var expectedBook = new Book(0, "BookTitle_10500", dbAuthors.get(0), dbGenres.get(0));
+        var returnedBook = repositoryJdbc.save(expectedBook);
+        assertThat(returnedBook).isNotNull()
+                .matches(book -> book.getId() > 0)
+                .usingRecursiveComparison().ignoringExpectedNullFields().isEqualTo(expectedBook);
+
+        assertThat(repositoryJdbc.findById(returnedBook.getId()))
+                .isPresent()
+                .get()
+                .isEqualTo(returnedBook);
+    }
+
+    @DisplayName("должен сохранять измененную книгу")
+    @Test
+    void shouldSaveUpdatedBook() {
+        var expectedBook = new Book(1L, "BookTitle_10500", dbAuthors.get(2), dbGenres.get(2));
+
+        assertThat(repositoryJdbc.findById(expectedBook.getId()))
+                .isPresent()
+                .get()
+                .isNotEqualTo(expectedBook);
+
+        var returnedBook = repositoryJdbc.save(expectedBook);
+        assertThat(returnedBook).isNotNull()
+                .matches(book -> book.getId() > 0)
+                .usingRecursiveComparison().ignoringExpectedNullFields().isEqualTo(expectedBook);
+
+        assertThat(repositoryJdbc.findById(returnedBook.getId()))
+                .isPresent()
+                .get()
+                .isEqualTo(returnedBook);
+    }
+
+    @DisplayName("должен удалять книгу по id ")
+    @Test
+    void shouldDeleteBook() {
+        assertThat(repositoryJdbc.findById(1L)).isPresent();
+        repositoryJdbc.deleteById(1L);
+        assertThat(repositoryJdbc.findById(1L)).isEmpty();
+    }
+
     private static List<Author> getDbAuthors() {
         return IntStream.range(1, 4).boxed()
                 .map(id -> new Author(id, "Author_" + id))
